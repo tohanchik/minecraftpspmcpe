@@ -386,6 +386,8 @@ void ChunkRenderer::render(float camX, float camY, float camZ) {
   sceGuEnable(GU_LIGHTING);
   sceGuAmbient(sunAmbient);
   sceGuEnable(GU_ALPHA_TEST);
+  // Water in terrain.png may have low alpha; keep alpha test permissive for transparent pass.
+  sceGuAlphaFunc(GU_GREATER, 0x00, 0xFF);
   sceGuEnable(GU_BLEND);
   sceGuDisable(GU_CULL_FACE); // Allow plants/water to be seen from both sides
 
@@ -413,5 +415,6 @@ void ChunkRenderer::render(float camX, float camY, float camZ) {
   }
 
   sceGuEnable(GU_CULL_FACE); // Restore CULL_FACE
+  sceGuAlphaFunc(GU_GREATER, 0x80, 0xFF); // Restore default cutout threshold
   sceGuDisable(GU_LIGHTING); // Restore default state
 }

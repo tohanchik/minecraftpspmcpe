@@ -280,18 +280,6 @@ void Level::generate(Random *rng) {
       c->cz = cz;
       WorldGen::generateChunk(c->blocks, cx, cz, seed);
       for(int i=0; i<4; i++) c->dirty[i] = true;
-      for (int lx = 0; lx < CHUNK_SIZE_X; lx++) {
-        for (int lz = 0; lz < CHUNK_SIZE_Z; lz++) {
-          for (int ly = 0; ly < CHUNK_SIZE_Y; ly++) {
-            int wx = cx * CHUNK_SIZE_X + lx;
-            int wz = cz * CHUNK_SIZE_Z + lz;
-            uint8_t bid = c->blocks[lx][lz][ly];
-            if (bid == BLOCK_WATER_STILL || bid == BLOCK_WATER_FLOW) {
-              enqueueWaterCell(wx, ly, wz);
-            }
-          }
-        }
-      }
     }
   }
 
