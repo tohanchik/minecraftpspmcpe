@@ -17,17 +17,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build
+        working-directory: Minecraft-PlayStationPortable-Edition-master
         run: make -j"$(nproc)"
 
       - name: Assemble distributable package
+        working-directory: Minecraft-PlayStationPortable-Edition-master
         run: |
           mkdir -p dist/MinecraftPSP
           cp EBOOT.PBP dist/MinecraftPSP/
-          cp -R res dist/MinecraftPSP/
+          if [ -d res ]; then
+            cp -R res dist/MinecraftPSP/
+          fi
 
       - name: Upload PSP package artifact
         uses: actions/upload-artifact@v4
         with:
           name: MinecraftPSP-package
           path: |
-            dist/MinecraftPSP
+            Minecraft-PlayStationPortable-Edition-master/dist/MinecraftPSP
